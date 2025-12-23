@@ -4,6 +4,11 @@ import 'package:flutter_svg/svg.dart';
 
 import '../core/app_colours.dart';
 import '../core/app_icons.dart';
+import '../features/ai_screen/screens/ai_screen_view.dart';
+import '../features/community_screen/screens/change_screen_view.dart';
+import '../features/home_screen/screens/home_screen_view.dart';
+import '../features/profile_screen/screens/profile_screen.dart';
+import '../features/progress_screen/screens/progress_screen_view.dart';
 
 /// Navigation Bar Item Model
 class NavBarItem {
@@ -127,11 +132,11 @@ class _NavBarScreenState extends State<NavBarScreen> {
 
   // Screens
   final List<Widget> _screens = [
-    // AiScreenView(),
-    // ProgressScreenView(),
-    // HomeScreenView(),
-    // ChangeScreenView(),
-    // ProfileScreen(),
+     AiScreenView(),
+     ProgressScreenView(),
+     HomeScreenView(),
+     ChangeScreenView(),
+     ProfileScreen(),
   ];
 
   // Nav items
