@@ -1,8 +1,10 @@
 class AppImages {
   static const String workFlowTextSVG = 'assets/icons/work_flow_text.svg';
   static const String appLogo = 'assets/images/app_logo.png';
-  static const String splashLight = 'assets/images/splashlight.png';
-  static const String splashDark = 'assets/images/splashdark.png';
+  // static const String splashLight = 'assets/images/splashlight.png';
+  static const String splashLight = 'assets/images/lightc.png';
+  static const String splashDark = 'assets/images/dark.png';
+  // static const String splashDark = 'assets/images/splashdark.png';
   static const String onboarding1Light = 'assets/images/imageLight.png';
   static const String onboarding1Dark = 'assets/images/imageDark.png';
   static const String pencilPutul = 'assets/images/pencil_putul.png';

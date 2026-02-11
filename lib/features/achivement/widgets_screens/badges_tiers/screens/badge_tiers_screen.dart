@@ -8,8 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:online_study/constraints/app_colors.dart';
 import 'package:online_study/constraints/app_icons.dart';
 import 'package:online_study/features/achivement/controller/achivement_controller.dart';
-import 'package:online_study/features/badges_tiers/badges_widgets/tier_card.dart';
-import 'package:online_study/features/badges_tiers/screens/tier_details_screen.dart';
+import 'package:online_study/features/achivement/widgets_screens/badges_tiers/badges_widgets/tier_card.dart';
+import 'package:online_study/features/achivement/widgets_screens/badges_tiers/screens/tier_details_screen.dart';
 import 'package:online_study/features/language/controller/language_controller.dart';
 import 'package:online_study/theme/theme_change_controller.dart';
 

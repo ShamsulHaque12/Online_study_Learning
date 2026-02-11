@@ -224,6 +224,7 @@ class AiScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: Container(
+                  width: 70.w,
                   padding: EdgeInsets.all(16.r),
                   decoration: BoxDecoration(
                     color: AppDarkColors.primaryColor,

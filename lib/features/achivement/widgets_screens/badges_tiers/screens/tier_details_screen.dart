@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:online_study/constraints/app_colors.dart';
-import 'package:online_study/features/badges_tiers/controller/tier_details_controller.dart';
+import 'package:online_study/features/achivement/widgets_screens/badges_tiers/controller/tier_details_controller.dart';
 import 'package:online_study/theme/theme_change_controller.dart';
 
 class TierDetailsScreen extends StatelessWidget {
