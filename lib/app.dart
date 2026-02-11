@@ -20,13 +20,12 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return Obx(() {
           return GetMaterialApp(
-            title: 'Online Learning',
+            title: 'Online Study',
             theme: LightTheme.lightThemeData,
             darkTheme: DarkTheme.darkThemeData,
             themeMode: themeController.themeMode,
             debugShowCheckedModeBanner: false,
             initialRoute: AppRoutes.splashScreen,
-            // initialRoute: AppRoutes.challengesScreen,
             getPages: AppPages.pages,
           );
         });

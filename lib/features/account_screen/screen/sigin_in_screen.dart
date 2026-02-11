@@ -11,10 +11,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:online_study/components/custom_button.dart';
 import 'package:online_study/constraints/app_colors.dart';
 import 'package:online_study/constraints/app_icons.dart';
-import 'package:online_study/constraints/app_images.dart';
 import 'package:online_study/features/account_screen/controller/account_screen_controller.dart';
 import 'package:online_study/features/account_screen/screen/forgot_password_screen.dart';
-import 'package:online_study/route/app_routes.dart';
 import 'package:online_study/theme/theme_change_controller.dart';
 
 class SiginInScreen extends StatelessWidget {
@@ -197,44 +195,44 @@ class SiginInScreen extends StatelessWidget {
     });
   }
 
-  void _showPopup(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+  // void _showPopup(BuildContext context) {
+  //   final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: Container(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: isDark ? Colors.black : Colors.white,
-              borderRadius: BorderRadius.circular(15.r),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(AppImages.putul, height: 100.h, width: 100.w),
-                SizedBox(height: 20.h),
-                Text(
-                  "Signing you in.....",
-                  style: GoogleFonts.inter(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+  //   showDialog(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     builder: (context) {
+  //       return Dialog(
+  //         backgroundColor: Colors.transparent,
+  //         child: Container(
+  //           padding: EdgeInsets.all(20),
+  //           decoration: BoxDecoration(
+  //             color: isDark ? Colors.black : Colors.white,
+  //             borderRadius: BorderRadius.circular(15.r),
+  //           ),
+  //           child: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               Image.asset(AppImages.putul, height: 100.h, width: 100.w),
+  //               SizedBox(height: 20.h),
+  //               Text(
+  //                 "Signing you in.....",
+  //                 style: GoogleFonts.inter(
+  //                   fontSize: 18.sp,
+  //                   fontWeight: FontWeight.bold,
+  //                   color: isDark ? Colors.white : Colors.black,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
 
-    Future.delayed(Duration(seconds: 2), () {
-      Navigator.of(context).pop();
-      Get.offAllNamed(AppRoutes.bottomNavScreen);
-    });
-  }
+  //   Future.delayed(Duration(seconds: 2), () {
+  //     Navigator.of(context).pop();
+  //     Get.offAllNamed(AppRoutes.bottomNavScreen);
+  //   });
+  // }
 }

@@ -40,7 +40,7 @@ class BottomNavScreen extends StatelessWidget {
           backgroundColor: isDarkMode
               ? AppDarkColors.backgroundColor
               : AppLightColors.backgroundColor,
-          selectedItemColor: const Color(0xFFFF6B35),
+          selectedItemColor: AppDarkColors.primaryColor,
           unselectedItemColor: isDarkMode
               ? Colors.white
               : const Color(0xff212529),
@@ -55,7 +55,7 @@ class BottomNavScreen extends StatelessWidget {
                 height: 24,
                 colorFilter: ColorFilter.mode(
                   controller.currentIndex.value == 0
-                      ? const Color(0xFFFF6B35)
+                      ? AppDarkColors.primaryColor
                       : isDarkMode
                       ? Colors.white
                       : const Color(0xff212529),
@@ -70,7 +70,7 @@ class BottomNavScreen extends StatelessWidget {
                 height: 24,
                 colorFilter: ColorFilter.mode(
                   controller.currentIndex.value == 1
-                      ? const Color(0xFFFF6B35)
+                      ? AppDarkColors.primaryColor
                       : isDarkMode
                       ? Colors.white
                       : const Color(0xff212529),
@@ -85,7 +85,7 @@ class BottomNavScreen extends StatelessWidget {
                 height: 24,
                 colorFilter: ColorFilter.mode(
                   controller.currentIndex.value == 2
-                      ? const Color(0xFFFF6B35)
+                      ? AppDarkColors.primaryColor
                       : isDarkMode
                       ? Colors.white
                       : const Color(0xff212529),
@@ -100,7 +100,7 @@ class BottomNavScreen extends StatelessWidget {
                 height: 24,
                 colorFilter: ColorFilter.mode(
                   controller.currentIndex.value == 3
-                      ? const Color(0xFFFF6B35)
+                      ? AppDarkColors.primaryColor
                       : isDarkMode
                       ? Colors.white
                       : const Color(0xff212529),
@@ -115,7 +115,7 @@ class BottomNavScreen extends StatelessWidget {
                 height: 24,
                 colorFilter: ColorFilter.mode(
                   controller.currentIndex.value == 4
-                      ? const Color(0xFFFF6B35)
+                      ? AppDarkColors.primaryColor
                       : isDarkMode
                       ? Colors.white
                       : const Color(0xff212529),

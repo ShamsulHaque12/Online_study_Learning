@@ -11,6 +11,13 @@ class Tier2DetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeController = Get.find<ThemeController>();
     final isDark = themeController.isDark.value;
-    return Scaffold(appBar: AppBar(title: Text('Tier 2 Details')));
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Tier 2 Details',
+          style: TextStyle(color: isDark ? Colors.white : Colors.black),
+        ),
+      ),
+    );
   }
 }

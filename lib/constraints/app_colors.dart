@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppLightColors {
   static final Color backgroundColor = Color(0xffFFFFFF);
-  static final Color primaryColor = Color(0xffE46A28);
+  // static final Color primaryColor = Color(0xffE46A28);
+  static final Color primaryColor = Colors.green;
   static final Color buttonTextColor = Color(0xffF8F9FA);
   static final Color tealColor = Color(0xff1FB8B7);
   static final Color welButtonBackColor = Color(0xffF8F9FA);
@@ -18,7 +19,8 @@ class AppLightColors {
 
 class AppDarkColors {
   static final Color backgroundColor = Color(0xff051A37);
-  static final Color primaryColor = Color(0xffE46A28);
+  // static final Color primaryColor = Color(0xffE46A28);
+  static final Color primaryColor = Colors.green;
   static final Color tealColor = Color(0xff9DEBEA);
   static final Color welButtonBackColor = Color(0xff212529);
   static final Color textFieldBorderColor = Color(0xffADB5BD);

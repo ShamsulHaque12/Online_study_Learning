@@ -226,7 +226,7 @@ class AiScreen extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(16.r),
                   decoration: BoxDecoration(
-                    color: Color(0xffE46A28),
+                    color: AppDarkColors.primaryColor,
                     borderRadius: BorderRadius.circular(16.r),
                   ),
                   child: SvgPicture.asset(iconPath),
