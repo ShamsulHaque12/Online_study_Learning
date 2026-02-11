@@ -1,23 +1,37 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
-import '../../../core/app_colours.dart';
-import '../../../core/app_icons.dart';
-import '../controller/daily_goals_controller.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:online_study/constraints/app_colors.dart';
+import 'package:online_study/constraints/app_icons.dart';
+import 'package:online_study/features/setting_screen/controller/daily_goal_controller.dart';
+import 'package:online_study/theme/theme_change_controller.dart';
 
 class DailyGoalsScreen extends StatelessWidget {
-  final DailyGoalsController controller = Get.put(DailyGoalsController());
   DailyGoalsScreen({super.key});
+  final DailyGoalController controller = Get.put(DailyGoalController());
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final themeController = Get.find<ThemeController>();
+    return Obx(() {
+      final isDark = themeController.isDark.value;
     return Scaffold(
-      backgroundColor: isDark ? AppColors.bgDark : AppColors.bgLight,
+      backgroundColor: isDark
+          ? AppDarkColors.backgroundColor
+          : AppLightColors.backgroundColor,
       appBar: AppBar(
-        backgroundColor: isDark ? AppColors.bgDark : AppColors.bgLight,
+        backgroundColor: isDark
+            ? AppDarkColors.backgroundColor
+            : AppLightColors.backgroundColor,
+        elevation: 0,
+        scrolledUnderElevation: 0,
         leading: GestureDetector(
           onTap: () {
             Get.back();
@@ -29,7 +43,7 @@ class DailyGoalsScreen extends StatelessWidget {
         ),
         title: Text(
           "Daily Goals",
-          style: TextStyle(
+          style: GoogleFonts.inter(
             color: isDark ? Colors.white : Colors.black,
             fontWeight: FontWeight.w600,
           ),
@@ -42,10 +56,10 @@ class DailyGoalsScreen extends StatelessWidget {
           children: [
             Text(
               "Goal",
-              style: TextStyle(
+              style: GoogleFonts.inter(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w700,
-                color: AppColors.btnBG,
+                color: AppDarkColors.primaryColor,
               ),
             ),
             SizedBox(height: 10.h),
@@ -55,7 +69,7 @@ class DailyGoalsScreen extends StatelessWidget {
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(10.r),
                 border: Border.all(
-                  color: isDark ? AppColors.bgLight : AppColors.borderLine,
+                  color: isDark ? Color(0xFFFFFFFF) : AppDarkColors.borderLine,
                   width: 2.w,
                 ),
               ),
@@ -77,8 +91,8 @@ class DailyGoalsScreen extends StatelessWidget {
                           height: 35.h,
                           width: 35.w,
                           color: isDark
-                              ? AppColors.bgLight
-                              : AppColors.borderLine,
+                              ? Color(0xFFFFFFFF)
+                              : AppDarkColors.borderLine,
                         ),
 
                         SizedBox(width: 10.w),
@@ -89,11 +103,11 @@ class DailyGoalsScreen extends StatelessWidget {
                             children: [
                               Text(
                                 item.title,
-                                style: TextStyle(
+                                style: GoogleFonts.inter(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
                                   color: isDark
-                                      ? AppColors.bgLight
+                                      ? Color(0xFFFFFFFF)
                                       : Colors.black,
                                 ),
                               ),
@@ -104,7 +118,7 @@ class DailyGoalsScreen extends StatelessWidget {
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w400,
                                   color: isDark
-                                      ? AppColors.bgLight
+                                      ? Color(0xFFFFFFFF)
                                       : Colors.black,
                                 ),
                               ),
@@ -113,10 +127,14 @@ class DailyGoalsScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 10.h),
                         Obx(
-                          () => Checkbox(
-                            value: controller.selected[index],
-                            onChanged: (val) => controller.toggleCheck(index),
-                            shape: CircleBorder(),
+                          () => Transform.scale(
+                            scale: 1.4,
+                            child: Checkbox(
+                              value: controller.selected[index],
+                              onChanged: (val) => controller.toggleCheck(index),
+                              activeColor: AppDarkColors.primaryColor,
+                              shape: const CircleBorder(),
+                            ),
                           ),
                         ),
                       ],
@@ -131,7 +149,7 @@ class DailyGoalsScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w700,
-                color: AppColors.btnBG,
+                color: AppDarkColors.primaryColor,
               ),
             ),
             SizedBox(height: 10.h),
@@ -140,7 +158,7 @@ class DailyGoalsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 border: Border.all(
-                  color: isDark ? AppColors.bgLight : Colors.black,
+                  color: isDark ? Color(0xFFFFFFFF) : Colors.black,
                   width: 2.w,
                 ),
               ),
@@ -158,8 +176,8 @@ class DailyGoalsScreen extends StatelessWidget {
                             height: 20.h,
                             width: 20.w,
                             color: isDark
-                                ? AppColors.bgLight
-                                : AppColors.borderLine,
+                                ? Color(0xFFFFFFFF)
+                                : AppDarkColors.borderLine,
                           ),
                           SizedBox(width: 10),
                           Text(
@@ -167,7 +185,7 @@ class DailyGoalsScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
-                              color: isDark ? AppColors.bgLight : Colors.black,
+                              color: isDark ? Color(0xFFFFFFFF) : Colors.black,
                             ),
                           ),
                         ],
@@ -176,8 +194,8 @@ class DailyGoalsScreen extends StatelessWidget {
                       Obx(
                         () => Switch(
                           value: controller.isReminderOn.value,
-                          activeColor: AppColors.grammer,
-                          activeTrackColor: AppColors.btnBG,
+                          activeThumbColor: AppDarkColors.textColors2,
+                          activeTrackColor: AppDarkColors.primaryColor,
                           onChanged: (val) =>
                               controller.isReminderOn.value = val,
                         ),
@@ -285,5 +303,6 @@ class DailyGoalsScreen extends StatelessWidget {
         ),
       ),
     );
+    });
   }
 }

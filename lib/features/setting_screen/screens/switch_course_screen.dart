@@ -1,26 +1,40 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-
-import '../../../core/app_colours.dart';
-import '../../../core/app_images.dart';
-import '../controller/course_controller.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/instance_manager.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:online_study/constraints/app_colors.dart';
+import 'package:online_study/constraints/app_images.dart';
+import 'package:online_study/features/setting_screen/controller/switch_course_controller.dart';
+import 'package:online_study/theme/theme_change_controller.dart';
 
 class SwitchCourseScreen extends StatelessWidget {
-  final CourseController controller = Get.put(CourseController());
   SwitchCourseScreen({super.key});
+  final SwitchCourseController controller = Get.put(SwitchCourseController());
+
   final Map<String, String> languageFlags = {
-    'English (British)': AppImages.uk,
-    'Tagalog': AppImages.thagalok,
+    'English (British)': AppImages.englishFlag,
+    'Tagalog': AppImages.spanishFlag,
   };
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final themeController = Get.find<ThemeController>();
+    return Obx(() {
+      final isDark = themeController.isDark.value;
+
     return Scaffold(
-      backgroundColor: isDark ? AppColors.bgDark : AppColors.bgLight,
+      backgroundColor: isDark
+          ? AppDarkColors.backgroundColor
+          : AppLightColors.backgroundColor,
       appBar: AppBar(
-        backgroundColor: isDark ? AppColors.bgDark : AppColors.bgLight,
+        backgroundColor: isDark
+            ? AppDarkColors.backgroundColor
+            : AppLightColors.backgroundColor,
+        elevation: 0,
+        scrolledUnderElevation: 0,
         leading: GestureDetector(
           onTap: () {
             Get.back();
@@ -32,7 +46,7 @@ class SwitchCourseScreen extends StatelessWidget {
         ),
         title: Text(
           "Switch Course",
-          style: TextStyle(
+          style: GoogleFonts.inter(
             color: isDark ? Colors.white : Colors.black,
             fontWeight: FontWeight.w600,
           ),
@@ -60,6 +74,7 @@ class SwitchCourseScreen extends StatelessWidget {
         ),
       ),
     );
+    });
   }
 }
 
@@ -78,20 +93,22 @@ class _LanguageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final themeController = Get.find<ThemeController>();
+    final isDark = themeController.isDark.value;
 
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(8.r),
       child: Container(
+        height: 60.h,
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         decoration: BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(8.r),
           border: Border.all(
             color: isSelected
-                ? AppColors.btnBG
-                : (isDark ? AppColors.bgLight : Colors.black12),
+                ? AppDarkColors.primaryColor
+                : (isDark ? Color(0xFFffffff) : Colors.black12),
             width: 2.w,
           ),
         ),
@@ -108,9 +125,11 @@ class _LanguageTile extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: TextStyle(
+                style: GoogleFonts.inter(
                   fontSize: 16.sp,
-                  color: isDark ? AppColors.bgLight : Colors.black,
+                  color: isDark
+                      ? AppDarkColors.primaryTextColor
+                      : AppLightColors.primaryTextColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -122,7 +141,9 @@ class _LanguageTile extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? AppColors.btnBG : Colors.grey.shade400,
+                  color: isSelected
+                      ? AppDarkColors.primaryColor
+                      : Colors.grey.shade400,
                   width: 2,
                 ),
                 color: Colors.white,
@@ -134,7 +155,7 @@ class _LanguageTile extends StatelessWidget {
                         height: 12.h,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.btnBG,
+                          color: AppDarkColors.primaryColor,
                         ),
                       ),
                     )

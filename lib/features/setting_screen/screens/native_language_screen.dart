@@ -1,68 +1,80 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../core/app_colours.dart';
-import '../../../core/app_images.dart';
-import '../controller/native_language_controller.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:online_study/constraints/app_colors.dart';
+import 'package:online_study/constraints/app_images.dart';
+import 'package:online_study/features/setting_screen/controller/native_language_controller.dart';
+import 'package:online_study/theme/theme_change_controller.dart';
 
 class NativeLanguageScreen extends StatelessWidget {
+  NativeLanguageScreen({super.key});
   final NativeLanguageController controller = Get.put(
     NativeLanguageController(),
   );
-  NativeLanguageScreen({super.key});
 
   final Map<String, String> languageFlags = {
-    'English (British)': AppImages.uk,
-    'Tagalog': AppImages.thagalok,
+    'English': AppImages.englishFlag,
+    'Tagalog': AppImages.spanishFlag,
   };
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final themeController = Get.find<ThemeController>();
+    return Obx(() {
+      final isDark = themeController.isDark.value;
 
-    return Scaffold(
-      backgroundColor: isDark ? AppColors.bgDark : AppColors.bgLight,
-      appBar: AppBar(
-        backgroundColor: isDark ? AppColors.bgDark : AppColors.bgLight,
-        leading: GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: isDark ? Colors.white : Colors.black,
+      return Scaffold(
+        backgroundColor: isDark
+            ? AppDarkColors.backgroundColor
+            : AppLightColors.backgroundColor,
+        appBar: AppBar(
+          backgroundColor: isDark
+              ? AppDarkColors.backgroundColor
+              : AppLightColors.backgroundColor,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          leading: GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: isDark ? Colors.white : Colors.black,
+            ),
+          ),
+          title: Text(
+            "Native Language",
+            style: GoogleFonts.inter(
+              color: isDark ? Colors.white : Colors.black,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
-        title: Text(
-          "Native Language",
-          style: TextStyle(
-            color: isDark ? Colors.white : Colors.black,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(15.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: languageFlags.keys.map((language) {
-            return Column(
-              children: [
-                Obx(
-                  () => _LanguageTile(
-                    title: language,
-                    flagAsset: languageFlags[language]!,
-                    isSelected: controller.selectedLanguage.value == language,
-                    onTap: () => controller.selectLanguage(language),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(15.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: languageFlags.keys.map((language) {
+              return Column(
+                children: [
+                  Obx(
+                    () => _LanguageTile(
+                      title: language,
+                      flagAsset: languageFlags[language]!,
+                      isSelected: controller.selectedLanguage.value == language,
+                      onTap: () => controller.selectLanguage(language),
+                    ),
                   ),
-                ),
-                SizedBox(height: 15.h),
-              ],
-            );
-          }).toList(),
+                  SizedBox(height: 15.h),
+                ],
+              );
+            }).toList(),
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
@@ -81,20 +93,22 @@ class _LanguageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final themeController = Get.find<ThemeController>();
+    final isDark = themeController.isDark.value;
 
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(8.r),
       child: Container(
+        height: 60.h,
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         decoration: BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(8.r),
           border: Border.all(
             color: isSelected
-                ? AppColors.btnBG
-                : (isDark ? AppColors.bgLight : Colors.black12),
+                ? AppDarkColors.primaryColor
+                : (isDark ? Color(0xFFffffff) : Colors.black12),
             width: 2.w,
           ),
         ),
@@ -111,9 +125,11 @@ class _LanguageTile extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: TextStyle(
+                style: GoogleFonts.inter(
                   fontSize: 16.sp,
-                  color: isDark ? AppColors.bgLight : Colors.black,
+                  color: isDark
+                      ? AppDarkColors.primaryTextColor
+                      : AppLightColors.primaryTextColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -125,7 +141,9 @@ class _LanguageTile extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? AppColors.btnBG : Colors.grey.shade400,
+                  color: isSelected
+                      ? AppDarkColors.primaryColor
+                      : Colors.grey.shade400,
                   width: 2,
                 ),
                 color: Colors.white,
@@ -137,7 +155,7 @@ class _LanguageTile extends StatelessWidget {
                         height: 12.h,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.btnBG,
+                          color: AppDarkColors.primaryColor,
                         ),
                       ),
                     )

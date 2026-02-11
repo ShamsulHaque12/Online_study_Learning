@@ -2,400 +2,328 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../component/custom_widgets/custom_button.dart';
-import '../../../core/app_colours.dart';
-import '../../../core/app_icons.dart';
-import '../../../core/app_images.dart';
-import '../../setting_screen/screens/setting_screen_view.dart';
-import '../controller/profile_controller.dart';
+import 'package:online_study/constraints/app_colors.dart';
+import 'package:online_study/constraints/app_icons.dart';
+import 'package:online_study/constraints/app_images.dart';
+import 'package:online_study/features/home/controller/lesson_controller.dart';
+import 'package:online_study/features/language/controller/language_controller.dart';
+import 'package:online_study/features/profile_screen/controller/profile_controller.dart';
+import 'package:online_study/route/app_routes.dart';
+import 'package:online_study/services/api_endpoints.dart';
+import 'package:online_study/theme/theme_change_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
-  final ProfileController controller = Get.put(ProfileController());
   ProfileScreen({super.key});
+  final LessonController lessonController = Get.find<LessonController>();
+  final ProfileController controller = Get.put(ProfileController());
+  final langController = Get.find<LanguageController>();
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final themeController = Get.find<ThemeController>();
 
-    return Scaffold(
-      backgroundColor: isDark ? AppColors.bgDark : AppColors.bgLight,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(15.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10.w,
-                      vertical: 5.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.btnBG,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          AppIcons.taj,
-                          height: 22.h,
-                          width: 22.w,
-                        ),
-                        SizedBox(width: 6.w),
-                        Text(
-                          "Premium",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                            color: isDark ? Colors.white : Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+    return Obx(() {
+      final isDark = themeController.isDark.value;
 
-                  SizedBox(width: 12.w),
-
-                  /// Settings Button
-                  GestureDetector(
-                    onTap: () => Get.to(() => SettingScreenView()),
-                    child: SvgPicture.asset(
-                      AppIcons.setting,
-                      height: 26.h,
-                      width: 26.w,
-                      color: isDark ? Colors.white : Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.h),
-              Center(
-                child: CircleAvatar(
-                  radius: 70.r,
-                  backgroundImage: AssetImage(AppImages.pakhi1),
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Center(
-                child: Text(
-                  "Name",
-                  style: TextStyle(
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.btnBG,
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "@shortName",
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.grammer,
-                    ),
-                  ),
-                  SizedBox(width: 20.w),
-                  SvgPicture.asset(AppIcons.circel),
-                  SizedBox(width: 5.w),
-                  Text(
-                    "Joined October2025",
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.grammer,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10.h),
-              Center(
-                child: CustomButton(
-                  width: MediaQuery.sizeOf(context).width * 0.50,
-                  text: "Add Friend",
-                  onTap: () {},
-                  prefixIcon: Icon(Icons.person_add_alt, color: Colors.white),
-                  backgroundColor: AppColors.btnTextBule,
-                  borderColor: Colors.transparent,
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Text(
-                "Weekly progress",
-                style: TextStyle(
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.btnBG,
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Container(
-                padding: EdgeInsets.all(16.w),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: AppColors.btnBG, width: 2.w),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      return Scaffold(
+        backgroundColor:
+            isDark ? AppDarkColors.backgroundColor : AppLightColors.backgroundColor,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(15.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Top Row (Premium + Settings)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              height: 10.h,
-                              width: 10.w,
-                              decoration: BoxDecoration(
-                                color: AppColors.btnBG,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            SizedBox(width: 8.w),
-                            Text(
-                              "My",
-                              style: GoogleFonts.inter(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.btnBG,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          "1393 XP",
-                          style: GoogleFonts.inter(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
-                            color: isDark ? Colors.grey[400] : Colors.grey[500],
+                    // Premium Badge
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                      decoration: BoxDecoration(
+                        color: AppDarkColors.primaryColor,
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            AppIcons.crownIcon,
+                            height: 22.h,
+                            width: 22.w,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 6.w),
+                          Text(
+                            "Premium",
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: isDark ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: 15.h),
-                    SizedBox(
-                      height: 150.h,
-                      child: LineChart(
-                        LineChartData(
-                          gridData: FlGridData(
-                            show: true,
-                            drawVerticalLine: false,
-                            horizontalInterval: 400,
-                            getDrawingHorizontalLine: (value) {
-                              return FlLine(
-                                color: isDark ? Colors.grey[700]! : Colors.grey[300]!,
-                                strokeWidth: 1,
-                              );
-                            },
-                          ),
-                          titlesData: FlTitlesData(
-                            rightTitles: AxisTitles(
-                              sideTitles: SideTitles(showTitles: false),
-                            ),
-                            topTitles: AxisTitles(
-                              sideTitles: SideTitles(showTitles: false),
-                            ),
-                            leftTitles: AxisTitles(
-                              sideTitles: SideTitles(
-                                showTitles: true,
-                                reservedSize: 40.w,
-                                interval: 400,
-                                getTitlesWidget: (value, meta) {
-                                  return Text(
-                                    value.toInt().toString(),
-                                    style: GoogleFonts.inter(
-                                      color: isDark ? Colors.grey[500] : Colors.grey[400],
-                                      fontSize: 12.sp,
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                            bottomTitles: AxisTitles(
-                              sideTitles: SideTitles(
-                                showTitles: true,
-                                reservedSize: 30.h,
-                                getTitlesWidget: (value, meta) {
-                                  const days = ['T', 'W', 'T', 'F', 'S', 'S', 'M'];
-                                  if (value.toInt() >= 0 && value.toInt() < days.length) {
-                                    return Padding(
-                                      padding: EdgeInsets.only(top: 8.h),
-                                      child: Text(
-                                        days[value.toInt()],
-                                        style: GoogleFonts.inter(
-                                          color: isDark ? Colors.grey[500] : Colors.grey[400],
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  return const SizedBox();
-                                },
-                              ),
-                            ),
-                          ),
-                          borderData: FlBorderData(show: false),
-                          minX: 0,
-                          maxX: 6,
-                          minY: 0,
-                          maxY: 1200,
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: const [
-                                FlSpot(0, 200),  // T
-                                FlSpot(1, 150),  // W
-                                FlSpot(2, 500),  // T
-                                FlSpot(3, 400),  // F
-                                FlSpot(4, 500),  // S
-                                FlSpot(5, 950),  // S
-                                FlSpot(6, 600),  // M
-                              ],
-                              isCurved: false,
-                              color: AppColors.btnBG,
-                              barWidth: 2.5,
-                              isStrokeCapRound: true,
-                              dotData: FlDotData(
-                                show: true,
-                                getDotPainter: (spot, percent, barData, index) {
-                                  return FlDotCirclePainter(
-                                    radius: 4.5,
-                                    color: AppColors.btnBG,
-                                    strokeWidth: 0,
-                                  );
-                                },
-                              ),
-                              belowBarData: BarAreaData(show: false),
-                            ),
-                          ],
-                        ),
+                    SizedBox(width: 12.w),
+                    // Settings Button
+                    GestureDetector(
+                      onTap: () => Get.toNamed(AppRoutes.settingScreen),
+                      child: SvgPicture.asset(
+                        AppIcons.setting,
+                        height: 26.h,
+                        width: 26.w,
+                        color: isDark ? Colors.white : Colors.black,
                       ),
                     ),
                   ],
                 ),
-              ),
 
-              SizedBox(height: 10.h),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  StreakCard(
-                    title: "2 Days",
-                    subtitle: "Streak",
-                    icon: AppIcons.agun,
-                    bgColor: AppColors.box,
-                    textColor: AppColors.text2,
-                  ),
-                  SizedBox(height: 10.h),
-                  StreakCard(
-                    title: "2 words",
-                    subtitle: "Vocabulary",
-                    icon: AppIcons.word,
-                    bgColor: AppColors.box,
-                    textColor: AppColors.text2,
-                  ),
-                  SizedBox(height: 10.h),
-                  StreakCard(
-                    title: "2 / 20",
-                    subtitle: "Chapter",
-                    icon: AppIcons.chapter,
-                    bgColor: AppColors.box,
-                    textColor: AppColors.text2,
-                  ),
-                  SizedBox(height: 10.h),
-                  StreakCard(
-                    title: "212 EXP",
-                    subtitle: "Bronze Class",
-                    icon: AppIcons.bronze,
-                    bgColor: AppColors.box,
-                    textColor: AppColors.text2,
-                  ),
-                ],
-              ),
-              SizedBox(height: 10.h),
+                SizedBox(height: 20.h),
 
+                // User Avatar
+                Obx(() {
+                  final user = lessonController.user.value;
+                  final imageUrl = resolveUserImage(user?.image);
 
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-class StreakCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final String icon;
-  final Color bgColor;
-  final Color textColor;
+                  return Center(
+                    child: CircleAvatar(
+                      radius: 70.r,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: imageUrl != null
+                          ? NetworkImage(imageUrl)
+                          : AssetImage(AppImages.avator) as ImageProvider,
+                    ),
+                  );
+                }),
 
-  const StreakCard({
-    super.key,
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-    required this.bgColor,
-    required this.textColor,
-  });
+                SizedBox(height: 10.h),
 
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.center, // Column এ সেন্টারে থাকবে
-      child: Container(
-        width: 250.w, // FIXED WIDTH so serial wise nicely দেখা যায়
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              height: 60.h,
-              width: 70.w,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: bgColor,
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              child: SvgPicture.asset(icon),
-            ),
+                // User Info
+                Obx(() {
+                  final user = lessonController.user.value;
+                  String joinedText = "Joined";
 
-            SizedBox(width: 10.w),
+                  if (user?.createdAt != null) {
+                    final date = DateTime.tryParse(user!.createdAt!);
+                    if (date != null) {
+                      joinedText = "Joined ${_monthName(date.month)} ${date.year}";
+                    }
+                  }
 
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+                  return Column(
+                    children: [
+                      Center(
+                        child: Text(
+                          user?.fullName ?? "Full Name",
+                          style: TextStyle(
+                            fontSize: 22.sp,
+                            fontWeight: FontWeight.w700,
+                            color: AppDarkColors.primaryColor,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "@${user?.userName ?? "username"}",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w400,
+                              color: AppDarkColors.textColors2,
+                            ),
+                          ),
+                          SizedBox(width: 10.w),
+                          SvgPicture.asset(AppIcons.circel),
+                          SizedBox(width: 5.w),
+                          Text(
+                            joinedText,
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w400,
+                              color: AppDarkColors.textColors2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                }),
+
+                SizedBox(height: 20.h),
+
                 Text(
-                  title,
+                  langController.selectedLanguage["Weekly progress"] ?? "Weekly progress",
                   style: TextStyle(
                     fontSize: 24.sp,
-                    fontWeight: FontWeight.w700,
-                    color: textColor,
+                    fontWeight: FontWeight.w600,
+                    color: AppDarkColors.primaryColor,
                   ),
                 ),
-                SizedBox(height: 2.h),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w400,
-                    color: textColor,
-                  ),
-                ),
+
+                SizedBox(height: 10.h),
+
+                // Weekly Progress Chart
+                Obx(() {
+                  return Container(
+                    padding: EdgeInsets.all(16.w),
+                    decoration: BoxDecoration(
+                      color: isDark ? Colors.grey[850] : Colors.grey[50],
+                      border: Border.all(
+                        color: AppDarkColors.primaryColor.withOpacity(0.5),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: SizedBox(
+                      height: 180.h,
+                      child: Column(
+                        children: [
+                          // Header with total points
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                langController.selectedLanguage["My Points"] ?? "My Points",
+                                style: GoogleFonts.inter(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: isDark
+                                      ? AppDarkColors.primaryTextColor
+                                      : AppLightColors.primaryTextColor,
+                                ),
+                              ),
+                              Text(
+                                "${controller.totalWeeklyPoints} XP",
+                                style: GoogleFonts.inter(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: isDark
+                                      ? AppDarkColors.primaryTextColor
+                                      : AppLightColors.primaryTextColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 15.h),
+
+                          // Line Chart
+                          Expanded(
+                            child: LineChart(
+                              LineChartData(
+                                gridData: FlGridData(
+                                  show: true,
+                                  drawVerticalLine: false,
+                                  horizontalInterval: 5,
+                                  getDrawingHorizontalLine: (value) => FlLine(
+                                    color: isDark ? Colors.grey[700]! : Colors.grey[300]!,
+                                    strokeWidth: 1,
+                                  ),
+                                ),
+                                titlesData: FlTitlesData(
+                                  bottomTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: true,
+                                      reservedSize: 30.h,
+                                      getTitlesWidget: (value, meta) {
+                                        return Padding(
+                                          padding: EdgeInsets.only(top: 8.h),
+                                          child: Text(
+                                            controller.chartLabel(value.toInt()),
+                                            style: GoogleFonts.inter(
+                                              color: isDark
+                                                  ? AppDarkColors.primaryTextColor
+                                                  : AppLightColors.primaryTextColor,
+                                              fontSize: 12.sp,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  leftTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: true,
+                                      interval: 5,
+                                      reservedSize: 30.w,
+                                      getTitlesWidget: (value, meta) => Text(
+                                        value.toInt().toString(),
+                                        style: GoogleFonts.inter(
+                                          color: isDark ? Colors.grey[500] : Colors.grey[400],
+                                          fontSize: 12.sp,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  topTitles: AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false),
+                                  ),
+                                  rightTitles: AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false),
+                                  ),
+                                ),
+                                borderData: FlBorderData(show: false),
+                                minX: 0,
+                                maxX: (controller.safeDailyPoints.length - 1).toDouble(),
+                                minY: 0,
+                                maxY: controller.safeDailyPoints
+                                        .map((e) => e.points)
+                                        .fold(0, (a, b) => a > b ? a : b) +
+                                    5,
+                                lineBarsData: [
+                                  LineChartBarData(
+                                    spots: controller.weeklyPointSpots,
+                                    isCurved: true,
+                                    color: AppDarkColors.primaryColor,
+                                    barWidth: 3,
+                                    dotData: FlDotData(show: true),
+                                    belowBarData: BarAreaData(show: false),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+
+                SizedBox(height: 10.h),
               ],
-            )
-          ],
+            ),
+          ),
         ),
-      ),
-    );
+      );
+    });
+  }
+
+  String _monthName(int month) {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    return months[month - 1];
+  }
+
+  String? resolveUserImage(String? imagePath) {
+    if (imagePath == null || imagePath.isEmpty) return null;
+    if (imagePath.contains('undefined')) return null;
+    if (imagePath.startsWith('http')) return imagePath;
+    return "${ApiEndpoints.baseUrl}$imagePath";
   }
 }
